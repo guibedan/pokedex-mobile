@@ -9,6 +9,7 @@ export const StyledText = styled.View`
   width: 90px;
   padding: 5px;
   border-radius: 5px;
+  
   background-color: ${props => {
     switch (props.type) {
         case 'grass':

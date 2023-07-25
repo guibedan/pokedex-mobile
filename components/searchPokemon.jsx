@@ -8,13 +8,14 @@ import React, { useState } from 'react';
 import { StyledText } from './typesStyle'
 
 
-export default function SearchPokemon() {
+export default function SearchPokemon({ navigation }) {
 
   const [urlImagem, setUrlImagem] = useState('')
   const [name, serName] = useState('')
   const [types, setTypes] = useState([])
   const [text, onChangeText] = useState('');
   const [isSheetVisible, setIsSheetVisible] = useState(false);
+  const [headerVisible, setHeaderVisible] = React.useState(true);
 
   function upCase(val) {
     return val[0].toUpperCase()+val.substr(1) //deixar a primeira letra em maisculo
@@ -28,8 +29,13 @@ export default function SearchPokemon() {
     setIsSheetVisible(false);
   };
 
+  const handleNavigation = () => {
+    hideSheet()
+    navigation.navigate('PokemonView', { customProp: {name, types, urlImagem} })
+    setHeaderVisible(!headerVisible);
+  }
+
   const loadImg = () => {
-    showSheet()
     if(text !== '') {
       axios.get('https://pokeapi.co/api/v2/pokemon/' + text.toLocaleLowerCase())
         .then(response => {
@@ -40,15 +46,19 @@ export default function SearchPokemon() {
 
           setTypes([])
           type.forEach(function(t){
-            let temp = <StyledText type={t.type.name}><Text style={{color:"#fff"}}>{t.type.name}</Text></StyledText>
+            const temp = <StyledText type={t.type.name}><Text style={{color:"#fff"}}>{t.type.name}</Text></StyledText>
             setTypes(oldArray => [...oldArray, temp])
           })
 
+          showSheet()
           onChangeText('')
           Keyboard.dismiss();
         })
         .catch(error => {
-          console.log(error);
+          if(error.response) {
+            console.log(error);
+            alert("Nome do Pokemon não existe!")
+          }
         });
     }
   };
@@ -64,7 +74,7 @@ export default function SearchPokemon() {
         value={text}
       />
       <Button title="Search" onPress={loadImg} style={styles.btn} color='#007AFF'/>
-      <Modal
+    <Modal
         isVisible={isSheetVisible}
         onBackdropPress={hideSheet}
         onSwipeComplete={hideSheet}
@@ -81,7 +91,7 @@ export default function SearchPokemon() {
               </View>
             </View>
           )}
-          {/* <Button title="X" onPress={hideSheet} /> */}
+          <Button title="View More" onPress={handleNavigation} />
         </View>
       </Modal>
       <StatusBar style="auto" />
