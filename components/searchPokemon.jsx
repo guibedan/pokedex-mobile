@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, Button, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import Modal from 'react-native-modal';
 
 import axios from 'axios';
@@ -31,11 +31,11 @@ export default function SearchPokemon({ navigation }) {
 
   const handleNavigation = () => {
     hideSheet()
-    navigation.navigate('PokemonView', { customProp: {name, types, urlImagem} })
+    navigation.navigate('PokemonView', { customProp: {name} })
     setHeaderVisible(!headerVisible);
   }
 
-  const loadImg = () => {
+  const callApi = () => {
     if(text !== '') {
       axios.get('https://pokeapi.co/api/v2/pokemon/' + text.toLocaleLowerCase())
         .then(response => {
@@ -66,36 +66,43 @@ export default function SearchPokemon({ navigation }) {
 //
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.texts} >Pokedex:</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-      />
-      <Button title="Search" onPress={loadImg} style={styles.btn} color='#007AFF'/>
-    <Modal
-        isVisible={isSheetVisible}
-        onBackdropPress={hideSheet}
-        onSwipeComplete={hideSheet}
-        swipeDirection={['down']}
-        style={{ justifyContent: 'flex-end', margin: 0 }}
-        >
-        <View style={{ backgroundColor: 'white', padding: 16, borderTopStartRadius: 40, borderTopEndRadius: 40 }}>
-          {urlImagem !== '' && (
-            <View style={styles.response}>
-              <Image source={{ uri: urlImagem }} style={styles.imgs} />
-              <Text style={styles.texts} >{name}</Text>
-              <View style={styles.typeCont}>
-                {types.map(e => e)}
-              </View>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        
+        <View style={styles.container}>
+          <Text style={styles.texts}>Pokedex:</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeText}
+            value={text}
+            onSubmitEditing={callApi}
+            returnKeyType="done"
+          />
+          <Button title="Search" onPress={callApi} style={styles.btn} color='#007AFF'/>
+        <Modal
+            isVisible={isSheetVisible}
+            onBackdropPress={hideSheet}
+            onSwipeComplete={hideSheet}
+            swipeDirection={['down']}
+            style={{ justifyContent: 'flex-end', margin: 0 }}
+            >
+            <View style={{ backgroundColor: 'white', padding: 16, borderTopStartRadius: 40, borderTopEndRadius: 40 }}>
+              {urlImagem !== '' && (
+                <View style={styles.response}>
+                  <Image source={{ uri: urlImagem }} style={styles.imgs} />
+                  <Text style={styles.texts} >{name}</Text>
+                  <View style={styles.typeCont}>
+                    {types.map(e => e)}
+                  </View>
+                </View>
+              )}
+              <Button title="View More" onPress={handleNavigation} />
             </View>
-          )}
-          <Button title="View More" onPress={handleNavigation} />
+          </Modal>
+          {/* <StatusBar style="auto" /> */}
         </View>
-      </Modal>
-      <StatusBar style="auto" />
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -103,9 +110,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
     textAlign: 'center'
+  },
+  innerContainer: {
+    width: '80%',
   },
   response: {
     flex: 0,
@@ -131,6 +141,8 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 5,
+    borderColor: '#ccc',
   },
   btn: {
     backgroundColor: 'blue',
@@ -138,5 +150,6 @@ const styles = StyleSheet.create({
   },
   texts: {
     fontSize: 30,
+    marginBottom: 5,
   }
 });
