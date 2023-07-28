@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SearchPokemon from './searchPokemon';
 import ListPokemon from './listPokemon';
+import Settings from './settings';
 
 
 const Tab = createBottomTabNavigator();
@@ -20,6 +21,8 @@ export default function TabNavigator() {
             iconName = focused ? 'search' : 'search';
           } else if (route.name === 'List') {
             iconName = focused ? 'format-list-bulleted' : 'format-list-bulleted';
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'settings' : 'settings';
           }
 
           return <Icon name={iconName} size={size} color={color} />;
@@ -34,6 +37,7 @@ export default function TabNavigator() {
     >
       <Tab.Screen name="Search" component={SearchPokemon} />
       <Tab.Screen name="List" component={ListPokemon} />
+      <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   </>
   );
