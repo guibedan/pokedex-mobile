@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
+import * as Progress from 'react-native-progress'
+
 export const StyledText = styled.View`
   color: #fff;
   display: flex;
@@ -72,3 +74,5 @@ export const StyledText = styled.View`
     }
   }};
 `
+
+export const BarStats = styled(Progress.Bar)``
