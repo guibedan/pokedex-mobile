@@ -3,18 +3,25 @@ import { View, StyleSheet, Text, Image, ActivityIndicator } from 'react-native';
 import { StyledText } from './typesStyle'
 import axios from 'axios';
 
-import { Table, Row, Rows } from 'react-native-table-component';
 import { BarStats } from './typesStyle'
+import { PokemonContainer } from './containerPokemon';
+import { useMyContext } from '../src/Context';
 
 const PokemonView = ( { route } ) => {
   const { customProp } = route.params || {};
+
+  const { darkMode } = useMyContext();
+
+  const bg = darkMode.bg
+  const cl = darkMode.cl
+  const brd = darkMode.brd
 
   const [urlImagem, setUrlImagem] = useState('')
   const [name, serName] = useState('')
   const [types, setTypes] = useState([])
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
-  const tableHead = ['Nome', 'Num', 'bar']
+  const [color, setColor] = useState([])
 
   function upCase(val) {
     return val[0].toUpperCase()+val.substr(1) //deixar a primeira letra em maisculo
@@ -29,14 +36,20 @@ const PokemonView = ( { route } ) => {
 
         setUrlImagem(response.data.sprites.other['official-artwork'].front_default);
         serName(upCase(customProp.name.toLocaleLowerCase()))
+        setColor([])
+        setTypes([])
         typeData.forEach(function(t){
+          setColor(oldArray => [...oldArray, t.type.name])
           const temp = <StyledText type={t.type.name}><Text style={{color:"#fff"}}>{t.type.name}</Text></StyledText>
           setTypes(oldArray => [...oldArray, temp])
         })
+        setStats([])
         statsData.forEach(s => {
-          const temp = [
-            [s.stat.name, s.base_stat, <BarStats borderWidth={0} progress={100} width={s.base_stat} color="#097AFE" unfilledColor="#444"/>],
-          ]
+          const temp = <View style={{flex: 1, flexDirection: 'row', }}>
+            <View style={styles.stats}><Text style={{fontSize: 15, color: cl}}>{s.stat.name}</Text></View>
+            <View style={styles.stats}><Text style={{color: cl}}>{s.base_stat}</Text></View>
+            <View style={styles.stats}><BarStats borderWidth={0} progress={100} width={s.base_stat} color="#097AFE" unfilledColor="#444"/></View>
+          </View>
           setStats(oldArray => [...oldArray, temp])
         });
         setLoading(false);
@@ -52,24 +65,23 @@ const PokemonView = ( { route } ) => {
   if (loading) {
     // Enquanto a requisição estiver acontecendo, exibe a tela de loading
     return (
-      <View style={styles.loadingContainer}>
+      <View style={[styles.loadingContainer, {backgroundColor: bg}]}>
         <ActivityIndicator size="large" color="#097AFE" />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-        <Image source={{ url: urlImagem }} style={styles.imgs} />
-        <Text style={styles.texts} >{name}</Text>
-        <View style={styles.typeCont}>
-            {types.map(e => e)}
-        </View>
+    <View style={[styles.container, {backgroundColor: bg}]}>
+        <PokemonContainer color={color[0]}>
+          <Image source={{ uri: urlImagem }} style={styles.imgs} />
+          <Text style={styles.texts} >{name}</Text>
+          <View style={styles.typeCont}>
+              {types.map(e => e)}
+          </View>
+        </PokemonContainer>
         <View style={styles.statsContainer}>
-          <Table borderStyle={{borderWidth: 2, borderColor: 'transparent', justifyContent: 'space-between'}}>
-            <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-            <Rows data={stats} textStyle={styles.text}/>
-          </Table>
+          {stats.map(e => e)}
         </View>
     </View>
   )
@@ -106,6 +118,7 @@ const styles = StyleSheet.create({
     },
     texts: {
       fontSize: 30,
+      color: 'white',
     },
     loadingContainer: {
       flex: 1,
@@ -114,39 +127,15 @@ const styles = StyleSheet.create({
     },
     statsContainer: {
       flex: 1,
-      position: 'relative',
-      justifyContent: 'space-between',
-      width: '100%'
-    },  
-    
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      marginLeft: 0,
+      paddingTop: 50,
+    },
+    stats: {
+      height: 30,
+      width: '30%',
+      overflow: 'hidden'
+    }
   });
-
-  // axios.get('https://pokeapi.co/api/v2/pokemon/' + text.toLocaleLowerCase())
-  //       .then(response => {
-  //         const type = response.data.types
-
-  //         setUrlImagem(response.data.sprites.other['official-artwork'].front_default);
-  //         serName(upCase(text.toLocaleLowerCase()))
-
-  //         setTypes([])
-  //         type.forEach(function(t){
-  //           const temp = <StyledText type={t.type.name}><Text style={{color:"#fff"}}>{t.type.name}</Text></StyledText>
-  //           setTypes(oldArray => [...oldArray, temp])
-  //         })
-
-  //         showSheet()
-  //         onChangeText('')
-  //         Keyboard.dismiss();
-  //       })
-  //       .catch(error => {
-  //         if(error.response) {
-  //           console.log(error);
-  //           alert("Nome do Pokemon não existe!")
-  //         }
-  //       });
-
-  // <View style={styles.stats}>
-  //           <Text style={{marginRight: 10}}>{s.stat.name}</Text>
-  //           <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text>{s.base_stat}</Text></View>
-  //           <BarStats borderWidth={0} progress={100} width={s.base_stat} color="#097AFE" unfilledColor="#444"/>
-  // </View>

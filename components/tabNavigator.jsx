@@ -5,10 +5,16 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import SearchPokemon from './searchPokemon';
 import ListPokemon from './listPokemon';
 import Settings from './settings';
+import { useMyContext } from '../src/Context';
 
 
 const Tab = createBottomTabNavigator();
 export default function TabNavigator() {
+  
+  const { darkMode } = useMyContext();
+
+  const bg = darkMode.bgTab
+  const cl = darkMode.cl
 
   return (
     <>
@@ -27,12 +33,21 @@ export default function TabNavigator() {
 
           return <Icon name={iconName} size={size} color={color} />;
         },
+        tabBarStyle: {
+          backgroundColor: bg
+        },
+        headerStyle: {
+          backgroundColor: bg,
+        },
+        headerTitleStyle: {
+          color: cl
+        }
       })}
       tabBarOptions={{
-        style: styles.tabBar,
         labelStyle: styles.label,
         // activeTintColor: 'blue',
         inactiveTintColor: 'gray',
+
       }}
     >
       <Tab.Screen name="Search" component={SearchPokemon} />
@@ -45,13 +60,13 @@ export default function TabNavigator() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     borderTopWidth: 1,
     borderTopColor: 'lightgray',
     paddingVertical: 8,
   },
   label: {
     fontSize: 12,
-    marginBottom: 4,
+    marginBottom: 4
   },
 });

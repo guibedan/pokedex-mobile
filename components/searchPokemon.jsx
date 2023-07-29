@@ -6,9 +6,17 @@ import axios from 'axios';
 import React, { useState } from 'react';
 
 import { StyledText } from './typesStyle'
+import { useMyContext } from '../src/Context';
+
 
 
 export default function SearchPokemon({ navigation }) {
+
+  const { darkMode } = useMyContext();
+
+  const bg = darkMode.bg
+  const cl = darkMode.cl
+  const brd = darkMode.brd
 
   const [urlImagem, setUrlImagem] = useState('')
   const [name, serName] = useState('')
@@ -66,13 +74,13 @@ export default function SearchPokemon({ navigation }) {
 //
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView style={[styles.container, {backgroundColor: bg}]} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         
-        <View style={styles.container}>
-          <Text style={styles.texts}>Pokedex:</Text>
+        <View style={[styles.container, {backgroundColor: bg}]}>
+          <Text style={[styles.texts, {color: cl}]}>Pokedex:</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, {color: cl, borderColor: brd}]}
             onChangeText={onChangeText}
             value={text}
             onSubmitEditing={callApi}
@@ -84,13 +92,13 @@ export default function SearchPokemon({ navigation }) {
             onBackdropPress={hideSheet}
             onSwipeComplete={hideSheet}
             swipeDirection={['down']}
-            style={{ justifyContent: 'flex-end', margin: 0 }}
+            style={{ justifyContent: 'flex-end', margin: 0, }}
             >
-            <View style={{ backgroundColor: 'white', padding: 16, borderTopStartRadius: 40, borderTopEndRadius: 40 }}>
+            <View style={{ backgroundColor: brd, padding: 16, borderTopStartRadius: 40, borderTopEndRadius: 40, borderColor: '#ccc' }}>
               {urlImagem !== '' && (
                 <View style={styles.response}>
                   <Image source={{ uri: urlImagem }} style={styles.imgs} />
-                  <Text style={styles.texts} >{name}</Text>
+                  <Text style={[styles.texts, {color: cl}]} >{name}</Text>
                   <View style={styles.typeCont}>
                     {types.map(e => e)}
                   </View>
@@ -107,12 +115,13 @@ export default function SearchPokemon({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
+    width: '100%'
   },
   innerContainer: {
     width: '80%',
@@ -137,7 +146,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 200,
+    width: '60%',
     margin: 12,
     borderWidth: 1,
     padding: 10,

@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 
+import { useMyContext } from '../src/Context';
+
 function ListPokemon({ navigation }) {
+
+  const { darkMode } = useMyContext();
+
+  const bg = darkMode.bg
+  const cl = darkMode.cl
+  const brd = darkMode.brd
   
   const [pokemonList, setPokemonList] = useState([]);
   const [filteredPokemonList, setFilteredPokemonList] = useState([]);
@@ -13,7 +21,7 @@ function ListPokemon({ navigation }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=10010');
         setPokemonList(response.data.results);
         setFilteredPokemonList(response.data.results);
         setLoading(false);
@@ -35,10 +43,10 @@ function ListPokemon({ navigation }) {
     <TouchableOpacity onPress={() => handleNavigation(item.name)}>
       <View style={styles.item}>
         <Image
-          source={{ url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonIdFromUrl(item.url)}.png` }}
+          source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonIdFromUrl(item.url)}.png` }}
           style={styles.image}
         />
-          <Text style={styles.text}>{upCase(item.name)}</Text>
+          <Text style={[styles.text, {color: cl}]}>{upCase(item.name)}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -71,10 +79,10 @@ function ListPokemon({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Pokémon List</Text>
+    <View style={[styles.container, {backgroundColor: bg}]}>
+      <Text style={[styles.title, {color: cl}]}>Pokémon List</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, {borderColor: brd, color: cl}]}
         placeholder="Digite o nome do Pokémon"
         value={searchText}
         onChangeText={handleSearch}
