@@ -21,7 +21,6 @@
     "react-native-modal": "^13.0.1",
     "react-native-progress": "^5.0.0",
     "react-native-svg": "^13.10.0",
-    "react-native-table-component": "^1.2.2",
     "react-native-vector-icons": "^10.0.0",
     "styled-components": "^6.0.4"
   },

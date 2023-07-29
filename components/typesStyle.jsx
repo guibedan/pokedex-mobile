@@ -11,6 +11,7 @@ export const StyledText = styled.View`
   width: 90px;
   padding: 5px;
   border-radius: 5px;
+
   
   background-color: ${props => {
     switch (props.type) {
@@ -60,7 +61,7 @@ export const StyledText = styled.View`
             return '#7b62a3'
             break;
         case 'dragon':
-            return '9932cc'
+            return '#9932cc'
             break;
         case 'flying':
             return '#99ccff'
@@ -74,5 +75,8 @@ export const StyledText = styled.View`
     }
   }};
 `
+
+
+
 
 export const BarStats = styled(Progress.Bar)``
