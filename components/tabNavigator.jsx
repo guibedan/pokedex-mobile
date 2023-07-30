@@ -11,7 +11,7 @@ import { useMyContext } from '../src/Context';
 const Tab = createBottomTabNavigator();
 export default function TabNavigator() {
   
-  const { darkMode } = useMyContext();
+  const { darkMode, texts } = useMyContext();
 
   const bg = darkMode.bgTab
   const cl = darkMode.cl
@@ -23,11 +23,11 @@ export default function TabNavigator() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Search') {
+          if (route.name === texts.search) {
             iconName = focused ? 'search' : 'search';
-          } else if (route.name === 'List') {
+          } else if (route.name === texts.list) {
             iconName = focused ? 'format-list-bulleted' : 'format-list-bulleted';
-          } else if (route.name === 'Settings') {
+          } else if (route.name === texts.settings) {
             iconName = focused ? 'settings' : 'settings';
           }
 
@@ -50,9 +50,9 @@ export default function TabNavigator() {
 
       }}
     >
-      <Tab.Screen name="Search" component={SearchPokemon} />
-      <Tab.Screen name="List" component={ListPokemon} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name={`${texts.search}`} component={SearchPokemon} />
+      <Tab.Screen name={`${texts.list}`} component={ListPokemon} />
+      <Tab.Screen name={`${texts.settings}`} component={Settings} />
     </Tab.Navigator>
   </>
   );

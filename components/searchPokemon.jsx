@@ -12,7 +12,7 @@ import { useMyContext } from '../src/Context';
 
 export default function SearchPokemon({ navigation }) {
 
-  const { darkMode } = useMyContext();
+  const { darkMode, texts } = useMyContext();
 
   const bg = darkMode.bg
   const cl = darkMode.cl
@@ -26,7 +26,7 @@ export default function SearchPokemon({ navigation }) {
   const [headerVisible, setHeaderVisible] = React.useState(true);
 
   function upCase(val) {
-    return val[0].toUpperCase()+val.substr(1) //deixar a primeira letra em maisculo
+    return val[0].toUpperCase()+val.substr(1)
   }
 
   const showSheet = () => {
@@ -71,7 +71,7 @@ export default function SearchPokemon({ navigation }) {
     }
   };
 
-//
+
 
   return (
     <KeyboardAvoidingView style={[styles.container, {backgroundColor: bg}]} behavior="padding">
@@ -86,7 +86,7 @@ export default function SearchPokemon({ navigation }) {
             onSubmitEditing={callApi}
             returnKeyType="done"
           />
-          <Button title="Search" onPress={callApi} style={styles.btn} color='#007AFF'/>
+          <Button title={`${texts.search}`} onPress={callApi} style={styles.btn} color='#007AFF'/>
         <Modal
             isVisible={isSheetVisible}
             onBackdropPress={hideSheet}

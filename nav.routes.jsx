@@ -11,7 +11,7 @@ import { useMyContext } from './src/Context';
 const Stack = createStackNavigator();
 export default function Nav() {
 
-    const { darkMode } = useMyContext()
+    const { darkMode, texts } = useMyContext()
 
     const bg = darkMode.bgTab
     const cl = darkMode.cl
@@ -20,8 +20,8 @@ export default function Nav() {
     <>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
-          <Stack.Screen name="PokemonView" component={PokemonView} 
+          <Stack.Screen name={`${texts.back}`} component={TabNavigator} />
+          <Stack.Screen name="Pokemon" component={PokemonView} 
             options={({ route }) => ({
               headerShown: route.params?.headerVisible,
               headerStyle: {
@@ -32,7 +32,7 @@ export default function Nav() {
               },
             })}
           />
-          <Stack.Screen name="LanguageOptions" component={LanguageOptions} 
+          <Stack.Screen name={`${texts.lang}`} component={LanguageOptions} 
             options={({ route }) => ({
               headerShown: route.params?.headerVisible,
               headerStyle: {

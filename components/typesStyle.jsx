@@ -76,7 +76,4 @@ export const StyledText = styled.View`
   }};
 `
 
-
-
-
 export const BarStats = styled(Progress.Bar)``

@@ -8,9 +8,6 @@ export const PokemonContainer = styled.View`
   flex-direction: column;
   width: 100%;
   height: 50%;
-
-  /* position: absolute;
-  top: 0; */
   
   background: ${props => {
     switch (props.color) {
@@ -27,46 +24,46 @@ export const PokemonContainer = styled.View`
             return '#679fc4'
             break;
         case 'bug':
-            return '#799c51' //
+            return '#7b955d' //
             break;
         case 'normal':
-            return '#a4acaf'
+            return '#d5e2e7'
             break;
         case 'electric':
-            return '#eed535'
+            return '#dbcb63'
             break;
         case 'fairy':
-            return '#fdb9e9'
+            return '#ddbfd4'
             break;
         case 'ground':
-            return '#ab9842'
+            return '#9c9368'
             break;
         case 'fighting':
-            return '#d56723'
+            return '#ae724c'
             break;
         case 'psychic':
-            return '#f366b9'
+            return '#df8fbe'
             break;
         case 'rock':
-            return '#a38c21'
+            return '#7d7242'
             break;
         case 'steel':
-            return '#9eb7b8'
+            return '#c2d2d3'
             break;
         case 'ice':
-            return '#51c4e7'
+            return '#96d4e7'
             break;
         case 'ghost':
-            return '#7b62a3'
+            return '#87799f'
             break;
         case 'dragon':
-            return '9932cc'
+            return '#a267bf'
             break;
         case 'flying':
-            return '#99ccff'
+            return '#95aec8'
             break;
         case 'dark':
-            return '#707070'
+            return '#a9a6a6'
             break;
     
         default:

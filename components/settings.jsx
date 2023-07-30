@@ -1,41 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch, TouchableOpacity } from 'react-native';
 import { OptionContainer, TextOption, TextLanguege, ContainerSettings } from './settingsStyle';
 import { useMyContext } from '../src/Context';
 
-// import { Container } from './styles';
 
 function Settings({ navigation }) {
 
-  const { language, setMode } = useMyContext();
+  const { language, darkMode, setMode, texts, ref } = useMyContext();
 
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState)
-    return setMode()
-  }
+  const bg = darkMode.bg
+  const cl = darkMode.cl
+
+  const toggleSwitch = () => setMode()
   const [headerVisible, setHeaderVisible] = React.useState(true);
 
 
   const handleNavigation = () => {
-    navigation.navigate('LanguageOptions')
+    navigation.navigate(texts.lang)
     setHeaderVisible(!headerVisible);
   }
 
 
   return (
-    <ContainerSettings mode={isEnabled}>
+    <ContainerSettings style={{backgroundColor: bg}}>
       <OptionContainer>
-        <TextOption mode={isEnabled}>Dark mode</TextOption>
+        <TextOption style={{color: cl}}>{texts.dark}</TextOption>
         <Switch
+        trackColor={{false: '#ccc', true: '#aad0fb'}}
+        thumbColor={ref ? '#097AFE' : '#097AFE'}
+        // ios_backgroundColor="#ccc"
         onValueChange={toggleSwitch}
-        value={isEnabled}
+        value={ref}
+        style={{marginRight: 16}}
       />
       </OptionContainer>
       <TouchableOpacity onPress={() => handleNavigation(language)}>
         <OptionContainer>
-          <TextOption mode={isEnabled}>Language</TextOption>
-          <TextLanguege mode={isEnabled}>{language}</TextLanguege>
+          <TextOption style={{color: cl}}>{texts.lang}</TextOption>
+          <TextLanguege>{language}</TextLanguege>
         </OptionContainer>
       </TouchableOpacity>
     </ContainerSettings>
@@ -44,7 +46,3 @@ function Settings({ navigation }) {
 
 
 export default Settings;
-
-// trackColor={{false: '#767577', true: '#81b0ff'}}
-// thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-// ios_backgroundColor="#3e3e3e"

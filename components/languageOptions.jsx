@@ -1,15 +1,15 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Container, TextOption } from './settingsStyle';
 import { useMyContext } from '../src/Context';
 
 const LanguageOptions = ({navigation}) => {
   
-  const { ref } = useMyContext();
+  const { ref, darkMode } = useMyContext();
   
   const { setLanguePt, setLangueEn } = useMyContext();
 
-  const handleNavigation = (language) => {
+  const handleNavigation = () => {
     navigation.goBack('LanguageOptions')
   }
 
@@ -20,14 +20,14 @@ const LanguageOptions = ({navigation}) => {
           setLanguePt()
           return handleNavigation()
         }}>
-          <TextOption mode={ref}>Português</TextOption>
+          <TextOption style={{color: darkMode.cl}}>Português</TextOption>
         </TouchableOpacity>
         <View style={{width: '90%', backgroundColor: '#ccc', height: 2, margin: 10}}/>
         <TouchableOpacity onPress={() => {
           setLangueEn()
           return handleNavigation()
         }}>
-          <TextOption mode={ref}>English</TextOption>
+          <TextOption style={{color: darkMode.cl}}>English</TextOption>
         </TouchableOpacity>
     </Container>
   )

@@ -24,7 +24,7 @@ const PokemonView = ( { route } ) => {
   const [color, setColor] = useState([])
 
   function upCase(val) {
-    return val[0].toUpperCase()+val.substr(1) //deixar a primeira letra em maisculo
+    return val[0].toUpperCase()+val.substr(1)
   }
 
   useEffect(() => {
@@ -63,7 +63,6 @@ const PokemonView = ( { route } ) => {
   }, []);
 
   if (loading) {
-    // Enquanto a requisição estiver acontecendo, exibe a tela de loading
     return (
       <View style={[styles.loadingContainer, {backgroundColor: bg}]}>
         <ActivityIndicator size="large" color="#097AFE" />

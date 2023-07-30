@@ -6,7 +6,7 @@ import { useMyContext } from '../src/Context';
 
 function ListPokemon({ navigation }) {
 
-  const { darkMode } = useMyContext();
+  const { darkMode, texts } = useMyContext();
 
   const bg = darkMode.bg
   const cl = darkMode.cl
@@ -35,7 +35,7 @@ function ListPokemon({ navigation }) {
   }, []);
 
   const handleNavigation = (name) => {
-    navigation.navigate('PokemonView', { customProp: {name} })
+    navigation.navigate('Pokemon', { customProp: {name} })
     setHeaderVisible(!headerVisible);
   }
 
@@ -59,7 +59,6 @@ function ListPokemon({ navigation }) {
 
   const handleSearch = (text) => {
     setSearchText(text);
-    // Filtrar a lista de Pokémons com base no texto de pesquisa
     const filteredList = pokemonList.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(text.toLowerCase())
     );
@@ -80,10 +79,10 @@ function ListPokemon({ navigation }) {
 
   return (
     <View style={[styles.container, {backgroundColor: bg}]}>
-      <Text style={[styles.title, {color: cl}]}>Pokémon List</Text>
+      <Text style={[styles.title, {color: cl}]}>Pokemon {texts.list}</Text>
       <TextInput
         style={[styles.input, {borderColor: brd, color: cl}]}
-        placeholder="Digite o nome do Pokémon"
+        placeholder={`${texts.placeholder}`}
         value={searchText}
         onChangeText={handleSearch}
       />
