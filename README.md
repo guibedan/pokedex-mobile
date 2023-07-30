@@ -16,7 +16,7 @@ Nesse projeto eu utilizei o React Native, junto das técnologias/libs: axios, st
 #### Lista:
 <p align="center">
     <img width="300" src="./assets/imgs/list.jpeg"/>
-    <img width="300" src="./assets/imgs/listp.jpeg"/>
+    <img width="300" src="./assets/imgs/listP.jpeg"/>
 </p>
 
 #### Configurações:
